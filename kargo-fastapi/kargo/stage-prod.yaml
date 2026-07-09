@@ -7,8 +7,11 @@ metadata:
 spec:
   requestedFreight:
     - origin:
-        kind: Stage
-        name: stage
+        kind: Warehouse
+        name: fastapi
+      sources:
+        stages:
+          - stage
 
   promotionTemplate:
     spec:

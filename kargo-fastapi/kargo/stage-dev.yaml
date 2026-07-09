@@ -9,6 +9,8 @@ spec:
     - origin:
         kind: Warehouse
         name: fastapi
+      sources:
+        direct: true
 
   promotionTemplate:
     spec:

@@ -10,3 +10,12 @@ Demonstrate simple configuration of Kargo and promotions through 3 Stages.
 * Create argocd app, and have 3 varieties of the app, integrate kustomize later (overlays?)
 * Each app refers to a particular image version of the fastapi-app image 
 * stages and promotions etc from there , multi track drifting
+
+
+# Apply the 3 apps
+
+'''
+argocd app create -f kargo-fastapi-app-dev.yaml
+argocd app create -f kargo-fastapi-app-stage.yaml
+argocd app create -f kargo-fastapi-app-prod.yaml
+```

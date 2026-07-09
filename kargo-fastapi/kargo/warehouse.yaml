@@ -1,0 +1,4 @@
+spec:
+  subscriptions:
+  - image:
+      repoURL: ghcr.io/martysohio/fastapi-app

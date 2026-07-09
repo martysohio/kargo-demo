@@ -1,28 +1,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
-
 metadata:
-  name: kargo-fastapi
+  name: kargo-fastapi-stage
   namespace: argocd
-
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-
 spec:
   project: default
 
   source:
     repoURL: https://github.com/martysohio/kargo-demo.git
     targetRevision: main
-    path: kargo-fastapi
+    path: kargo-fastapi/overlays/stage
 
   destination:
     server: http://cluster-kargo-demo:8001
+    namespace: stage-kargo-fastapi
 
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-
     syncOptions:
       - CreateNamespace=true

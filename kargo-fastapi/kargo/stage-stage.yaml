@@ -2,7 +2,7 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: stage
-  namespace: kargo-fastapi
+  namespace: kargo-demo
 
 spec:
   requestedFreight:

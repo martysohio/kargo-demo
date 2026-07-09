@@ -2,8 +2,8 @@ apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
 metadata:
   name: dev
-  namespace: kargo-fastapi
-
+  namespace: kargo-demo
+#should this ns match the kargo project? because kargo creates NS internally (at least on akuity)
 spec:
   requestedFreight:
     - origin:

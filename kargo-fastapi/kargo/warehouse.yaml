@@ -1,4 +1,10 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: fastapi
+  namespace: kargo-fastapi
+
 spec:
   subscriptions:
-  - image:
-      repoURL: ghcr.io/martysohio/fastapi-app
+    - image:
+        repoURL: ghcr.io/martysohio/fastapi-app

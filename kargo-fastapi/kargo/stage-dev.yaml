@@ -37,8 +37,8 @@ spec:
         as: commit
         config:
           path: ./out
-          messageFromSteps:
-          - update-image
+          message: |
+            Update fastapi-app image to ${{ imageFrom(vars.imageRepo).Tag }}
       - uses: git-push
         config:
           path: ./out

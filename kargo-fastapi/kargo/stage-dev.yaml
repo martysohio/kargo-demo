@@ -29,7 +29,7 @@ spec:
       - uses: kustomize-set-image
         as: update-image
         config:
-          path: ./out/overlays/dev
+          path: ./out/kargo-fastapi/overlays/dev
           images:
           - image: ${{ vars.imageRepo }}
             tag: ${{ imageFrom(vars.imageRepo).Tag }}

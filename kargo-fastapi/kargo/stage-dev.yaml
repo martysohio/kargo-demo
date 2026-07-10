@@ -16,9 +16,9 @@ spec:
     spec:
       vars:
       - name: gitopsRepo
-        value: https://github.com/${GITHUB_USER}/${GITHUB_REPO}
+        value: https://github.com/martysohio/kargo-demo
       - name: imageRepo
-        value: ghcr.io/${GITHUB_USER}/guestbook
+        value: ghcr.io/martysohio/fastapi-app
       steps:
       - uses: git-clone
         config:
@@ -29,9 +29,10 @@ spec:
       - uses: kustomize-set-image
         as: update-image
         config:
-          path: ./out/app/env/dev
+          path: ./out/overlays/dev
           images:
           - image: ${{ vars.imageRepo }}
+            tag: ${{ imageFrom(vars.imageRepo).Tag }}
       - uses: git-commit
         as: commit
         config:

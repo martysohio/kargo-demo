@@ -28,7 +28,7 @@ spec:
       source:
         repoURL: https://github.com/martysohio/kargo-demo.git
         targetRevision: main
-        path: sleeper-app/charts/sleep-container
+        path: charts/sleep-container
         helm:
           releaseName: 'sleep-container-{{.env}}'
           valueFiles:

@@ -1,26 +1,56 @@
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: kargo-helm-sleeper
+#   namespace: argocd
+# spec:
+#   generators:
+#   - git:
+#       repoURL: https://github.com/martysohio/kargo-demo.git
+#       revision: HEAD
+#       directories:
+#       - path: sleeper-app/env/*
+#   template:
+#     metadata:
+#       name: kargo-helm-{{path.basename}}
+#     spec:
+#       destination:
+#         namespace: kargo-helm-{{path.basename}}
+#         name: helm-demo
+#       project: kargo-demo
+#       source:
+#         path: charts/sleep-container
+#         repoURL: https://github.com/martysohio/kargo-demo.git
+#         helm:
+#           valueFiles:
+#           - "/env/{{path.basename}}/values.yaml"
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: kargo-helm-sleeper
+  name: kargo-helm-demo
   namespace: argocd
 spec:
   generators:
-  - git:
-      repoURL: https://github.com/martysohio/kargo-demo.git
-      revision: HEAD
-      directories:
-      - path: sleeper-app/env/*
+    - git:
+        repoURL: https://github.com/martysohio/kargo-demo.git
+        revision: main
+        directories:
+          - path: sleeper-app/env/*
   template:
     metadata:
-      name: kargo-helm-{{path.basename}}
+      name: "{{path.basename}}"
     spec:
-      destination:
-        namespace: kargo-helm-{{path.basename}}
-        name: helm-demo
-      project: kargo-demo
+      project: default
       source:
-        path: charts/sleep-container
         repoURL: https://github.com/martysohio/kargo-demo.git
-        helm:
-          valueFiles:
-          - "/env/{{path.basename}}/values.yaml"
+        targetRevision: main
+        path: "{{path}}"
+      destination:
+        server: http://cluster-kargo-demo:8001
+        namespace: "{{path.basename}}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

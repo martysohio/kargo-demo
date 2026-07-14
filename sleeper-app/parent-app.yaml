@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: kargo-helm-sleeper
+  namespace: argocd
+
+  # Optional: allows Argo CD to delete managed resources
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/martysohio/kargo-demo.git
+    targetRevision: main
+    path: sleeper-app
+    directory:
+      exclude: 'parent-app.yaml' # Prevents the app from syncing itself
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

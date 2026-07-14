@@ -32,7 +32,7 @@ spec:
         helm:
           releaseName: 'sleep-container-{{.env}}'
           valueFiles:
-            - 'sleeper-app/{{.env}}/values.yaml'
+            - '/sleeper-app/{{.env}}/values.yaml'
       destination:
         server: http://cluster-kargo-demo:8001
         namespace: '{{.namespace}}'

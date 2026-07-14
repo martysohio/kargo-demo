@@ -34,7 +34,7 @@ spec:
           valueFiles:
             - 'sleeper-app/{{.env}}/values.yaml'
       destination:
-        server: https://kubernetes.default.svc
+        server: http://cluster-kargo-demo:8001
         namespace: '{{.namespace}}'
       syncPolicy:
         automated:

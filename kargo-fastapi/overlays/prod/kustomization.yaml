@@ -7,4 +7,4 @@ namespace: prod-kargo-fastapi
 namePrefix: prod-
 images:
 - name: ghcr.io/martysohio/fastapi-app
-  newTag: 1.0.2
+  newTag: 1.0.4

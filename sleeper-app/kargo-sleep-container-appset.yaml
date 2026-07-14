@@ -1,53 +1,44 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: ApplicationSet
-# metadata:
-#   name: kargo-helm-sleeper
-#   namespace: argocd
-# spec:
-#   generators:
-#   - git:
-#       repoURL: https://github.com/martysohio/kargo-demo.git
-#       revision: HEAD
-#       directories:
-#       - path: sleeper-app/env/*
-#   template:
-#     metadata:
-#       name: kargo-helm-{{path.basename}}
-#     spec:
-#       destination:
-#         namespace: kargo-helm-{{path.basename}}
-#         name: helm-demo
-#       project: kargo-demo
-#       source:
-#         path: charts/sleep-container
-#         repoURL: https://github.com/martysohio/kargo-demo.git
-#         helm:
-#           valueFiles:
-#           - "/env/{{path.basename}}/values.yaml"
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: kargo-helm-demo
+  name: kargo-sleep-container-appset
   namespace: argocd
 spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
   generators:
-    - git:
-        repoURL: https://github.com/martysohio/kargo-demo.git
-        revision: main
-        directories:
-          - path: sleeper-app/env/*
+    - list:
+        elements:
+          - env: stage
+            namespace: sleeper-stage
+          - env: prod
+            namespace: sleeper-prod
+          - env: dev
+            namespace: sleeper-dev
   template:
     metadata:
-      name: "{{path.basename}}"
+      name: 'sleep-container-{{.env}}'
+      labels:
+        kargo.akuity.io/env: '{{.env}}'
+      annotations:
+        # lets Kargo manage/promote this Application as part of a Stage
+        kargo.akuity.io/authorized-stage: 'kargo-demo:{{.env}}'
     spec:
       project: default
       source:
         repoURL: https://github.com/martysohio/kargo-demo.git
         targetRevision: main
-        path: "{{path}}"
+        path: sleeper-app/charts/sleep-container
+        helm:
+          releaseName: 'sleep-container-{{.env}}'
+          valueFiles:
+            - 'sleeper-app/{{.env}}/values.yaml'
+          parameters:
+            - name: replicaCount
+              value: '{{.replicaCount}}'
       destination:
-        server: http://cluster-kargo-demo:8001
-        namespace: "{{path.basename}}"
+        server: https://kubernetes.default.svc
+        namespace: '{{.namespace}}'
       syncPolicy:
         automated:
           prune: true

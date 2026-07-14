@@ -33,9 +33,6 @@ spec:
           releaseName: 'sleep-container-{{.env}}'
           valueFiles:
             - 'sleeper-app/{{.env}}/values.yaml'
-          parameters:
-            - name: replicaCount
-              value: '{{.replicaCount}}'
       destination:
         server: https://kubernetes.default.svc
         namespace: '{{.namespace}}'

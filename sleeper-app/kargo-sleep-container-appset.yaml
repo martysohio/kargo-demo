@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: kargo-helm-sleeper
+  namespace: argocd
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/martysohio/kargo-demo.git
+      revision: HEAD
+      directories:
+      - path: sleeper-app/env/*
+  template:
+    metadata:
+      name: kargo-helm-{{path.basename}}
+    spec:
+      destination:
+        namespace: kargo-helm-{{path.basename}}
+        name: helm-demo
+      project: kargo-demo
+      source:
+        path: charts/sleep-container
+        repoURL: https://github.com/martysohio/kargo-demo.git
+        helm:
+          valueFiles:
+          - "/env/{{path.basename}}/values.yaml"

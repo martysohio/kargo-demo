@@ -19,3 +19,9 @@ argocd app create -f kargo-fastapi-app-dev.yaml
 argocd app create -f kargo-fastapi-app-stage.yaml
 argocd app create -f kargo-fastapi-app-prod.yaml
 ```
+
+
+##
+
+sleep chart requires
+

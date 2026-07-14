@@ -1,0 +1,10 @@
+
+image:
+  repository: alpine
+  tag: "3.20"
+# Full override for the container command. Leave empty ([]) to use the
+# generated default command that echoes start/end times and sleeps for
+# `sleepSeconds`.
+command: []
+
+sleepSeconds: 30000

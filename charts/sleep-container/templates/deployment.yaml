@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpine-sleeper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alpine-sleeper
+  template:
+    metadata:
+      labels:
+        app: alpine-sleeper
+    spec:
+      containers:
+        - name: alpine
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          {{- if .Values.command }}
+          command:
+            {{- toYaml .Values.command | nindent 16 }}
+          {{- else }}
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Job started at $(date)"
+              sleep {{ .Values.sleepSeconds }}
+              echo "Job completed at $(date)"
+          {{- end }}

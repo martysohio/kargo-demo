@@ -8,3 +8,9 @@ spec:
   subscriptions:
     - image:
         repoURL: ghcr.io/martysohio/fastapi-app
+    - git:
+        repoURL: https://github.com/martysohio/kargo-demo.git
+        commitSelectionStrategy: NewestFromBranch
+        branch: main
+        includePaths:
+          - sleeper-app/charts/sleep-container

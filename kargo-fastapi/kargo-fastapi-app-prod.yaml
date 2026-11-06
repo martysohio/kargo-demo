@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: kargo-fastapi-prod
   namespace: argocd
+  annotations:
+    kargo.akuity.io/authorized-stage: kargo-demo:prod
 spec:
   project: default
 
@@ -12,7 +14,6 @@ spec:
     path: kargo-fastapi/overlays/prod
 
   destination:
-    server: http://cluster-kargo-demo:8001
     namespace: prod-kargo-fastapi
 
   syncPolicy:

@@ -40,5 +40,14 @@ spec:
           message: |
             Update fastapi-app image to ${{ imageFrom(vars.imageRepo).Tag }}
       - uses: git-push
+        as: push
         config:
           path: ./out
+      - uses: argocd-update
+        config:
+          apps:
+          - name: kargo-fastapi-dev
+            namespace: argocd
+            sources:
+            - repoURL: https://github.com/martysohio/kargo-demo.git
+              desiredRevision: ${{ outputs.push.commit }}
